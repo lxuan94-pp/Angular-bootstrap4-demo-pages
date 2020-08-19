@@ -1,0 +1,12 @@
+<div class="page-header page-header-dark bg-gradient-primary-to-secondary" [ngClass]='{"pb-10":!simplified, "page-header-dark bg-gradient-primary-to-secondary": !light, "page-header-light bg-white shadow": light}'>
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <h1 class="page-header-title">
+                <div class="page-header-icon"><i-feather *ngIf="icon" [name]="icon"></i-feather></div>
+                <span>{{title}}</span>
+            </h1>
+            <div class="page-header-subtitle">{{description}}</div>
+            <sb-breadcrumbs *ngIf="breadcrumbs"></sb-breadcrumbs>
+        </div>
+    </div>
+</div>

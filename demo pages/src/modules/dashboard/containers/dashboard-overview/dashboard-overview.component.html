@@ -1,0 +1,59 @@
+<sbpro-dashboard-head icon="activity" title="Login " description="Using email or NetID to login"></sbpro-dashboard-head>
+<div class="container-fluid mt-n10"> <!--change the color of border>-->
+    <sb-layout-auth class="bg-light-gray">
+<!--    <div class="bg-gray-200">-->
+<!--        <img src = "../../../../assets/login/Rice_University_Horizontal_Blue.svg"  class="img-fluid">-->
+<!--        <span class = "font-weight-400 align-middle"  style = "font-size: 30px">   My Identity</span>-->
+
+<!--    </div>-->
+    <div class="container">
+        <div class="row justify-content-center mt-10">
+            <div class="col-md-6 col-md-offset-3 ">
+                <!--                <div class="col-lg-3">-->
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header justify-content-center"><h1 class="font-weight-light my-4">Rice Login</h1></div>
+                    <div class="card-body">
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputEmailAddress">Email</label><input class="form-control py-4" id="inputEmailAddress" data-cy="emailInput" type="email" placeholder="Enter email address" aria-describedby="emailHelp" formControlName="email" [class.is-valid]="emailControlValid" [class.is-invalid]="emailControlInvalid" />
+                                <div class="invalid-feedback" *ngIf='emailControl.hasError("required")'>Email required.</div>
+                                <div class="invalid-feedback" *ngIf='emailControl.hasError("email")'>Email is not valid.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputPassword">Password</label><input class="form-control py-4" id="inputPassword" data-cy="passwordInput" type="password" placeholder="Enter password" formControlName="password" [class.is-valid]="passwordControlValid" [class.is-invalid]="passwordControlInvalid" />
+                                <div class="invalid-feedback" *ngIf='passwordControl.hasError("required")'>Password required.</div>
+                                <div class="invalid-feedback" *ngIf='passwordControl.hasError("minlength")'>Password must be at least 8 characters.</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox"><input class="custom-control-input" id="rememberPasswordCheck" data-cy="rememberPasswordCheck" type="checkbox" formControlName="checkbox" /><label class="custom-control-label" for="rememberPasswordCheck">Remember password</label></div>
+                            </div>
+                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><a class="small" routerLink="/auth/forgot-password">Forgot Password?</a><button class="btn btn-primary active" data-cy="loginButton" type="submit" [disabled]="loginForm.invalid">Login</button></div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="small"><a routerLink="/auth/register">Need an account? Sign up!</a></div>
+                    </div>
+                </div>
+                <!--                </div>-->
+            </div>
+        </div>
+    </div></sb-layout-auth
+    ><ng-template #confirmationModal let-modal
+><div class="modal-header">
+    <h5 class="modal-title">Login Form Data</h5>
+    <button class="close" type="button" aria-label="Close" (click)='modal.dismiss("Cross click")'><span aria-hidden="true">×</span></button>
+</div>
+    <div class="modal-body">
+        Wired up and ready to go. Just add a backend. <br /><br />
+        email: <code>{{loginForm.value.email}}</code>
+        <br />
+        password: <code>{{loginForm.value.password}}</code>
+        <br />
+        remember password: <code>{{loginForm.value.checkbox}}</code>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" type="button" (click)="modal.close()">Close</button><button class="btn btn-primary" type="button" (click)='modal.close("DASHBOARD")'>Proceed back to Dashboard</button></div>
+</ng-template>
+
+<!--    <sbpro-dashboard-cards></sbpro-dashboard-cards><sbpro-dashboard-tables></sbpro-dashboard-tables>-->
+</div>
+<!--<sbpro-dashboard-charts></sbpro-dashboard-charts>-->

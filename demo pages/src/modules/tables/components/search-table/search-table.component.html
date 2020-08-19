@@ -1,0 +1,65 @@
+<form class = 'width:100%'>
+
+    <div class="form-group form-inline">Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="userService.searchTerm" /><span class="ml-3" *ngIf="userService.loading$ | async">Loading...</span></div>
+    <div *ngIf="userService.searchTerm != ''" style="overflow-x:scroll;">
+    <table class="table text-nowrap " >
+        <thead>
+        <tr>
+            <th scope="col">Command</th>
+            <th scope="col" sbSortable="lastName" (sort)="onSort($event)"><span>Last Name</span><sb-sort-icon *ngIf='sortedColumn === "lastName"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="firstName" (sort)="onSort($event)"><span>First Name</span><sb-sort-icon *ngIf='sortedColumn === "firstName"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="middleName" (sort)="onSort($event)"><span>Middle Name</span><sb-sort-icon *ngIf='sortedColumn === "middleName"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="birthDate" (sort)="onSort($event)"><span>Birth Date</span><sb-sort-icon *ngIf='sortedColumn === "birthDate"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="riceID" (sort)="onSort($event)"><span>Rice ID</span><sb-sort-icon *ngIf='sortedColumn === "riceID"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="instanceID" (sort)="onSort($event)"><span>Instance ID</span><sb-sort-icon *ngIf='sortedColumn === "instanceID"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="instanceStatus" (sort)="onSort($event)"><span>Instance Status</span><sb-sort-icon *ngIf='sortedColumn === "instanceStatus"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="recordStatus" (sort)="onSort($event)"><span>Record Status</span><sb-sort-icon *ngIf='sortedColumn === "recordStatus"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="relationCode" (sort)="onSort($event)"><span>Relation Code</span><sb-sort-icon *ngIf='sortedColumn === "relationCode"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="relationDetailCode" (sort)="onSort($event)"><span>Relation Detail Code</span><sb-sort-icon *ngIf='sortedColumn === "relationDetailCode"' [direction]="sortedDirection"></sb-sort-icon></th>
+            <th scope="col" sbSortable="registered" (sort)="onSort($event)"><span>Registered</span><sb-sort-icon *ngIf='sortedColumn === "registered"' [direction]="sortedDirection"></sb-sort-icon></th>
+        </tr>
+        </thead>
+
+        <tbody>
+<!--        <tr *ngFor="let user of users$ | async">-->
+        <tr *ngFor="let user of users$ | async ; let i = index">
+<!--            <th>{{ user.command }}</th>-->
+            <td><ng-container *ngIf="user.commandUrl"><a [routerLink]="user.commandUrl" (click)="router(i)">view</a></ng-container></td>
+            <td><ngb-highlight [result]="user.lastName" [term]="userService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="user.firstName" [term]="userService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="user.middleName" [term]="userService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="user.birthDate" [term]="userService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="user.riceID" [term]="userService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="user.instanceID" [term]="userService.searchTerm"></ngb-highlight></td>
+<!--            <td *ngIf="user.recordBool" ><ngb-highlight [result]="user.instanceStatus"  [term]="userService.searchTerm"></ngb-highlight></td>-->
+            <td ><ngb-highlight [result]="user.instanceStatus" [term]="userService.searchTerm"></ngb-highlight></td>
+<!--            <td><ngb-highlight [result]="user.recordStatus" [term]="userService.searchTerm"></ngb-highlight></td>-->
+            <td>
+                <div class="d-inline-flex align-items-center">
+                    <ng-container *ngIf="user.recordStatus == 'active'" ><a class="text-success">{{user.recordStatus}}</a></ng-container>
+                    <ng-container *ngIf="user.recordStatus == 'inactive'"><a class="text-danger">{{user.recordStatus}}</a></ng-container>
+                </div>
+            </td>
+            <td><ngb-highlight [result]="user.relationCode" [term]="userService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="user.relationDetailCode" [term]="userService.searchTerm"></ngb-highlight></td>
+<!--            <td><ngb-highlight [result]="user.registered" [term]="userService.searchTerm"></ngb-highlight></td>-->
+            <td>
+                <div class="d-inline-flex align-items-center">
+                    <ng-container *ngIf="user.registered =='Yes'"><a class="text-success">{{user.registered}}</a></ng-container>
+                    <ng-container *ngIf="user.registered =='No'"><a class="text-danger">{{user.registered}}</a></ng-container>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+    <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="total$ | async" [(page)]="userService.page" [pageSize]="userService.pageSize"></ngb-pagination
+        ><select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="userService.pageSize"
+    ><option [ngValue]="2">2 items per page</option
+    ><option [ngValue]="4">4 items per page</option
+    ><option [ngValue]="6">6 items per page</option></select
+    >
+    </div>
+    </div>
+</form>

@@ -1,0 +1,120 @@
+<form>
+    <table class="table" >
+        <tbody>
+        <tr class>
+            <th>Select</th>
+            <th>Locked</th>
+            <th>Domain</th>
+            <th>Domain Type</th>
+            <th>Account Name</th>
+            <th>Account Type</th>
+            <th>Linked Status</th>
+            <th>Account Status</th>
+            <th>Account State</th>
+            <th>Unix UID</th>
+
+        </tr>
+        <tbody>
+        <tr *ngFor="let data of CurUser.messageList ; let i = index" >
+            <td>
+                <div class="d-inline-flex align-items-center">
+                    <ng-container *ngIf="data.select == true" >
+                        <div class="form-check ml-lg-2">
+                            <input class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="data.select == false"> <img src = "../../../../assets/img/slash.svg"  height="40%" class="ml-1"></ng-container>
+                </div>
+            </td>
+            <td>
+                <div>
+<!--                <i-feather class="mr-2" icon = 'lock' ></i-feather>-->
+                    <div class="d-inline-flex align-items-center">
+                        <ng-container *ngIf="data.locked == true"> <img src = "../../../../assets/img/lock.svg"  height="40%" class="ml-1" (click)="unlock(i)"></ng-container>
+                        <ng-container *ngIf="data.locked == false"> <img src = "../../../../assets/img/unlock.svg"  height="40%" class="ml-1" (click)="lock(i)"></ng-container>
+                    </div>
+                </div>
+            </td>
+            <td>{{data.domain}}</td>
+            <td>{{data.domainType}}</td>
+            <td>{{data.accountName}}</td>
+            <td>{{data.accountType}}</td>
+            <td>{{data.linkStatus}}</td>
+
+            <td>
+                <div ng-controller="StatusController" class="container">
+                        <select class="form-control" name="state" (change)="setStatus(i,$event.currentTarget.value)">
+                            <option [value]="data.accountStatus">{{data.accountStatus}}</option>
+                            <ng-container *ngFor="let status of states"><option *ngIf="data.accountStatus != status" [value]="status">{{status}}</option></ng-container>
+                        </select>
+                </div>
+            </td>
+            <td>{{data.accountState}}</td>
+            <td>{{data.UNIXUID}}</td>
+            <td>
+                <ng-template #content let-modal>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">Change Password</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="changeForm">
+                            <div class="form-group">
+                                <label>Current Password : <a>{{curPassword}}</a> </label>
+                                <p>New password:</p>
+                                <div class="input-group">
+<!--                                    <input id="newPassword" class="form-control" placeholder="at least 4 characters" name="np">-->
+                                    <input (keyup)="onKey($event)" class="form-control py-4" id="inputPassword"  data-cy="passwordInput" type="password" placeholder="Enter password" formControlName="password" [class.is-valid]="passwordControlValid" [class.is-invalid]="passwordControlInvalid" />
+                                    <div class="invalid-feedback" *ngIf='passwordControl.hasError("required")'>Password required.</div>
+                                    <div class="invalid-feedback" *ngIf='passwordControl.hasError("minlength")'>Password must be at least 4 characters.</div>
+<!--                                    <div class="input-group-append">-->
+<!--&lt;!&ndash;                                        <button class="btn btn-outline-secondary calendar" (click)="np.toggle()" type="button"></button>&ndash;&gt;-->
+<!--                                    </div>-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button *ngIf="passwordStatus === false" class="btn-outline-dark" disabled>Save</button>
+                        <button *ngIf="passwordStatus === true"  class="btn btn-outline-dark" (click)="save(i)" >Save</button>
+                    </div>
+                    <div  *ngIf="flag === 8" class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" (click)="show()">&times;</button>
+                        <strong>Change the password successfully!</strong>
+                    </div>
+                    <div  *ngIf="flag === 9" class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" (click)="show()">&times;</button>
+                        <strong>Invalid password!</strong>
+                    </div>
+                </ng-template>
+                <button class="btn btn-sm btn-primary" (click)="open(content,i)">change the password</button>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+
+
+<div  *ngIf="flag === 1" class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" (click)="show()">&times;</button>
+    <strong>Unlock the account!</strong>
+</div>
+
+<div  *ngIf="flag === 2" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" (click)="show()">&times;</button>
+    <strong>Lock the account!</strong>
+</div>
+
+<div  *ngIf="flag === 4" class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" (click)="show()">&times;</button>
+    <strong>Change the account Status successfully!</strong>
+</div>
+
+
+
+
+
