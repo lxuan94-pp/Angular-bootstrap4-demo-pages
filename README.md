@@ -1,7 +1,3 @@
-# SB Admin Pro Angular
-
-See full documentation at <https://docs.startbootstrap.com/sb-admin-pro-angular>
-
 ## TLDR; Quick Start
 
 We recommend you read the documentation above, but if that's not your thing,
